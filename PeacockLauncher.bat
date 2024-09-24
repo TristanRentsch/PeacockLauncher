@@ -5,12 +5,13 @@ set patcher=PeacockPatcher.exe
 set server=StartServer.cmd
 set cmdPrompt=cmd.exe
 set launcher=Launcher.exe
-set peacockLocation="[Paste path to Peacock Folder here]"
+set peacockLocation="[Peacock Folder location]"
+set hitmanLocation="C:\Program Files (x86)\Steam\steamapps\common\HITMAN 3\"
 
-cd "[Peacock Folder location]"
+cd %peacockLocation%
 rem call :reLaunch %patcher%
 call :relaunch %server% %cmdPrompt%
-cd "C:\Program Files (x86)\Steam\steamapps\common\HITMAN 3\ "
+cd %hitmanLocation%
 rem start %launcher%
 
 endlocal
@@ -30,5 +31,6 @@ EXIT /B
     ) else (
         echo Process not found: %killTask%
     )
+    echo Launching %1...
     start "" "%1"
 EXIT /B 0
