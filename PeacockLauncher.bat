@@ -1,35 +1,51 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 
 set patcher=PeacockPatcher.exe
 set server=StartServer.cmd
-set cmdPrompt=cmd.exe
 set launcher=Launcher.exe
-set peacockLocation="[Peacock Folder location]"
+set serverPort=80
+set peacockLocation=%1
 set hitmanLocation="C:\Program Files (x86)\Steam\steamapps\common\HITMAN 3\"
 
 cd %peacockLocation%
-rem call :reLaunch %patcher%
-call :relaunch %server% %cmdPrompt%
+call :reLaunch %patcher%
+call :relaunch %server% -s %serverPort%
 cd %hitmanLocation%
-rem start %launcher%
+start %launcher%
 
 endlocal
 EXIT /B
 
 :reLaunch
-    set killTask=%2
-    if "%killTask%"=="" (
-        set killTask=%1
-    )
-    echo Checking for process: %killTask%
-    tasklist /FI "IMAGENAME eq %killTask%" 2>NUL | find /I /N "%killTask%">NUL
-    echo ERRORLEVEL after tasklist: %ERRORLEVEL%
-    if "%ERRORLEVEL%"=="0" (
-        echo Process found, attempting to kill: %killTask%
-        taskkill /F /IM %killTask%
+    if "%2"=="-s" (
+        if "%3"=="" (
+            echo "ERR: Use -s tag with the following syntax:"
+            echo ":relaunch [EXE] -s [PORT]"
+            EXIT /B 0
+        )
+        REM Find the PID of the process using port %3 and kill
+        for /f "tokens=2,5" %%a in ('netstat -ano ^| findstr :%3') do (
+            if "%%a"=="0.0.0.0:%3" (
+                echo "Process found on port %3 (PID: %%b)..."
+                taskkill /PID %%b /F
+                echo "Process terminated."
+            )
+        )
+
     ) else (
-        echo Process not found: %killTask%
+        REM Check if process is already running
+        echo Checking for process: %1
+        tasklist /FI "IMAGENAME eq %1" 2>NUL | find /I /N "%1">NUL
+        echo ERRORLEVEL after tasklist: !ERRORLEVEL!
+        
+        REM Kill the process
+        if "!ERRORLEVEL!"=="0" (
+            echo Process found, attempting to kill: %1
+            taskkill /F /IM %1
+        ) else (
+            echo Process not found: %1
+        )
     )
     echo Launching %1...
     start "" "%1"
