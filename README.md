@@ -1,5 +1,5 @@
 # PeacockLauncher
-Are you sick of searching through your folders to launch Peacock every time you want to play Hitman 3? Well this script is for you! It automatidcally launches the Peacock server and patcher every time you launch Hitman 3. In addition, it kills old instances of Peacock server and patcher to prevent annoying conflicts if you forget to close them when relaunching the game.
+Are you sick of searching through your folders to launch Peacock every time you want to play Hitman 3? Well this script is for you! It automatically launches the Peacock server and patcher every time you launch Hitman 3. In addition, it kills old instances of Peacock server and patcher to prevent annoying conflicts if you forget to close them when relaunching the game.
 
 ### How to Install:
 1. [Download Peacock](https://thepeacockproject.org/) from the official website and follow its installation guide.

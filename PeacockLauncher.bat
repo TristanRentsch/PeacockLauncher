@@ -6,7 +6,7 @@ set server=StartServer.cmd
 set launcher=Launcher.exe
 set serverPort=80
 set peacockLocation=%1
-set hitmanLocation="C:\Program Files (x86)\Steam\steamapps\common\HITMAN 3\"
+set hitmanLocation=%~dp0
 
 cd %peacockLocation%
 call :reLaunch %patcher%
@@ -37,7 +37,6 @@ EXIT /B
         REM Check if process is already running
         echo Checking for process: %1
         tasklist /FI "IMAGENAME eq %1" 2>NUL | find /I /N "%1">NUL
-        echo ERRORLEVEL after tasklist: !ERRORLEVEL!
         
         REM Kill the process
         if "!ERRORLEVEL!"=="0" (
