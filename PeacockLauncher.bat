@@ -29,23 +29,22 @@ EXIT /B
             if "%%a"=="0.0.0.0:%3" (
                 echo "Process found on port %3 (PID: %%b)..."
                 taskkill /PID %%b /F
-                echo "Process terminated."
             )
         )
 
     ) else (
         REM Check if process is already running
-        echo Checking for process: %1
+        echo "Checking for process: %1"
         tasklist /FI "IMAGENAME eq %1" 2>NUL | find /I /N "%1">NUL
         
         REM Kill the process
         if "!ERRORLEVEL!"=="0" (
-            echo Process found, attempting to kill: %1
+            echo "Process found, attempting to kill: %1"
             taskkill /F /IM %1
         ) else (
-            echo Process not found: %1
+            echo "Process not found: %1"
         )
     )
-    echo Launching %1...
+    echo "Launching %1..."
     start "" "%1"
 EXIT /B 0
