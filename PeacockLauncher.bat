@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set patcher=PeacockPatcher.exe
-set server=StartServer.cmd
+set patcher="PeacockPatcher.exe"
+set server="Start Server.cmd"
 set launcher=Launcher.exe
 set serverPort=80
 set peacockLocation=%1
@@ -29,6 +29,7 @@ EXIT /B
             if "%%a"=="0.0.0.0:%3" (
                 echo "Process found on port %3 (PID: %%b)..."
                 taskkill /PID %%b /F
+                echo "Process terminated."
             )
         )
 
@@ -46,5 +47,5 @@ EXIT /B
         )
     )
     echo "Launching %1..."
-    start "" "%1"
+    start "Peacock Server" %1
 EXIT /B 0
